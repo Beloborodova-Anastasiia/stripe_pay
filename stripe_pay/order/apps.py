@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PurchaseConfig(AppConfig):
+class OrderConfig(AppConfig):
     default_auto_field = 'django.db.models.AutoField'
-    name = 'purchase'
+    name = 'order'

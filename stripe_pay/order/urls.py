@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'purchase'
+app_name = 'order'
 
 
 urlpatterns = [
@@ -12,6 +12,6 @@ urlpatterns = [
         views.create_checkout_session,
         name='item_checkout'
     ),
-    path('success/', views.SuccessView.as_view(), name='author'),
-    path('cancel/', views.CancelView.as_view(), name='tech'),
+    path('success/', views.SuccessView.as_view(), name='success'),
+    path('cancel/', views.CancelView.as_view(), name='cancel'),
 ]
