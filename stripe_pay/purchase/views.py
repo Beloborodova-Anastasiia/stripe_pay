@@ -1,16 +1,25 @@
-from django.shortcuts import get_object_or_404, render
+import os
+
 import stripe
-from rest_framework.decorators import api_view  
-from rest_framework.response import Response
+from django.shortcuts import get_object_or_404, render
+from django.views.generic.base import TemplateView
+from dotenv import load_dotenv
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from stripe_pay.settings import BASE_DIR
 
 from .models import Item
 from .serializers import StripeSessionIdSerializer
 
-stripe.api_key = 'sk_test_51MaPsGBW6wAkAh0T7HTOUbYGJMEnqvj19gnpXDWSn4bjMZUbnxiVXXpB5Yg5DZmNcy3NoxVrJIxJeYXlzGqPF5M600EG9gcrAW'
-PUBLIC_KEY = 'pk_test_51MaPsGBW6wAkAh0TGuRLeXVobKyekgtIZLQTqQCqi3JVk4YyjEKnrNuthG3zprHZW6XK8Lrd3TlQRbBmAWaQPmNb00tEXdL65J'
+load_dotenv()
 
-def item_detail(request, item_id): 
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY', default='default')
+PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', default='default')
+
+
+def item_detail(request, item_id):
     template = 'item_detail.html'
     item = get_object_or_404(Item, id=item_id)
     context = {
@@ -20,30 +29,39 @@ def item_detail(request, item_id):
     return render(request, template, context)
 
 
-@api_view(['GET',])  
+@api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
 
     session = stripe.checkout.Session.create(
         line_items=[{
             'price_data': {
-                'currency': 'usd',
+                'currency': 'rub',
                 'product_data': {
-                'name': item.name,
+                    'name': item.name,
                 },
                 'unit_amount': item.price,
             },
             'quantity': 1,
         }],
         mode='payment',
-        success_url='http://localhost:4242/success',
-        cancel_url='http://localhost:4242/cancel',
+        success_url='http://localhost:8000/success',
+        cancel_url='http://localhost:8000/cancel',
     )
     data = {
         'id': session.id
     }
+    print(BASE_DIR)
     serializer = StripeSessionIdSerializer(data=data)
-    
+
     if serializer.is_valid():
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SuccessView(TemplateView):
+    template_name = 'success.html'
+
+
+class CancelView(TemplateView):
+    template_name = 'cancel.html'
