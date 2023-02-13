@@ -32,7 +32,6 @@ def item_detail(request, item_id):
 @api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-
     session = stripe.checkout.Session.create(
         line_items=[{
             'price_data': {
@@ -45,13 +44,12 @@ def create_checkout_session(request, item_id):
             'quantity': 1,
         }],
         mode='payment',
-        success_url='http://localhost:8000/success',
-        cancel_url='http://localhost:8000/cancel',
+        success_url='http://127.0.0.1/success',
+        cancel_url='http://127.0.0.1/cancel',
     )
     data = {
         'id': session.id
     }
-    print(BASE_DIR)
     serializer = StripeSessionIdSerializer(data=data)
 
     if serializer.is_valid():
