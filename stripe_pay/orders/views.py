@@ -1,4 +1,5 @@
 import os
+import socket
 
 import stripe
 from django.shortcuts import get_object_or_404, render
@@ -11,9 +12,6 @@ from rest_framework.response import Response
 
 from .models import Item
 from .serializers import StripeSessionIdSerializer
-
-import socket
-
 
 load_dotenv()
 
