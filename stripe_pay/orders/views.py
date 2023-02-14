@@ -12,6 +12,9 @@ from rest_framework.response import Response
 from .models import Item
 from .serializers import StripeSessionIdSerializer
 
+import socket
+
+
 load_dotenv()
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY', default='default')
@@ -35,6 +38,10 @@ def item_detail(request, item_id):
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     host = request.get_host()
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    sok = s.getsockname()[0]
+    s.close()
     session = stripe.checkout.Session.create(
         line_items=[{
             'price_data': {
@@ -47,8 +54,8 @@ def create_checkout_session(request, item_id):
             'quantity': QUANTITY,
         }],
         mode=MODE,
-        success_url='http://' + host + reverse('orders:success'),
-        cancel_url='http://' + host + reverse('orders:cancel'),
+        success_url='http://' + sok + reverse('orders:success'),
+        cancel_url='http://' + sok + reverse('orders:cancel'),
     )
     data = {
         'id': session.id
