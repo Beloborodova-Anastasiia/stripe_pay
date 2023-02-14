@@ -66,6 +66,5 @@ jobs:
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           echo DB_HOST=${{ secrets.STRIPE_SECRET_KEY }} >> .env
           echo DB_PORT=${{ secrets.STRIPE_PUBLIC_KEY }} >> .env
-          echo DB_PORT=${{ secrets.DJANGO_KEY }} >> .env
           sudo docker-compose stop
 
