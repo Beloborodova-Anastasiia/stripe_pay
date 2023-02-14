@@ -14,4 +14,5 @@ urlpatterns = [
     ),
     path('success/', views.SuccessView.as_view(), name='success'),
     path('cancel/', views.CancelView.as_view(), name='cancel'),
+    path('', views.items, name='index'),
 ]

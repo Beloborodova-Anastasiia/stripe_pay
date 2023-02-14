@@ -22,6 +22,15 @@ MODE = 'payment'
 HOST = os.getenv('HOST', default='default')
 
 
+def items(request):
+    template = 'index.html'
+    items = Item.objects.all()
+    context = {
+        'items': items,
+    }
+    return render(request, template, context)
+
+
 def item_detail(request, item_id):
     template = 'item_detail.html'
     item = get_object_or_404(Item, id=item_id)

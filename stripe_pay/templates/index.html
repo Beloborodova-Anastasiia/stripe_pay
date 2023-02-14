@@ -1,0 +1,9 @@
+<html>
+  <head>
+    <title>Items list</title>
+  </head>
+  <h1>Список товаров</h1>
+  {% for item in items %}
+    <li>
+      <a href="{% url 'orders:item_detail' item.pk %}"> {{ item.name }} </a>
+  {% endfor %}
