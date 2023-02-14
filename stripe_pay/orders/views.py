@@ -24,9 +24,11 @@ MODE = 'payment'
 def item_detail(request, item_id):
     template = 'item_detail.html'
     item = get_object_or_404(Item, id=item_id)
+    host = request.get_full_path()
     context = {
         'item': item,
-        'public_key': STRIPE_PUBLIC_KEY
+        'public_key': STRIPE_PUBLIC_KEY,
+        'host': host
     }
     return render(request, template, context)
 
@@ -48,8 +50,10 @@ def create_checkout_session(request, item_id):
             'quantity': QUANTITY,
         }],
         mode=MODE,
-        success_url='http://' + host + reverse('orders:success'),
-        cancel_url='http://' + host + reverse('orders:cancel'),
+    #     success_url='http://' + host + reverse('orders:success'),
+    #     cancel_url='http://' + host + reverse('orders:cancel'),
+        success_url='http://http://84.201.133.140/success',
+        cancel_url='http://http://84.201.133.140/cancel',
     )
     data = {
         'id': session.id

@@ -11,6 +11,7 @@
     <button id="buy-button">Buy</button>
     <input type="hidden" value="{{ item.id }}" id="item-id">
     <input type="hidden" value="{{ public_key }}" id="public-key">
+    <input type="hidden" value="{{ host }}" id="host">
     <script type="text/javascript">
       var publicKey = document.getElementById('public-key');
       var stripe = Stripe(publicKey.value);
@@ -19,8 +20,9 @@
         // Create a new Checkout Session using the server-side endpoint 
         // Redirect to Stripe Session Checkout
         var itemIdInput = document.getElementById('item-id');
+        var host = document.getElementById('host');
         var path = '/buy/' + itemIdInput.value
-        console.log(path)
+        console.log(host)
         fetch(path, {method: 'GET'})
         .then(response => response.json())
         .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
