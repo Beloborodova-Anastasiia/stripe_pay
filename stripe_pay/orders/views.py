@@ -20,6 +20,7 @@ STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', default='default')
 CURRENCY = 'rub'
 QUANTITY = 1
 MODE = 'payment'
+HOST = '84.201.133.140'
 
 
 def item_detail(request, item_id):
@@ -35,10 +36,7 @@ def item_detail(request, item_id):
 @api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-    host = request.get_host()
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    sock = s.getsockname()[0]
+
     
     s.close()
     session = stripe.checkout.Session.create(
@@ -53,8 +51,8 @@ def create_checkout_session(request, item_id):
             'quantity': QUANTITY,
         }],
         mode=MODE,
-        success_url='http://' + host + reverse('orders:success'),
-        cancel_url='http://' + sock + reverse('orders:cancel'),
+        success_url='http://' + HOST + reverse('orders:success'),
+        cancel_url='http://' + HOST + reverse('orders:cancel'),
     )
     data = {
         'id': session.id
