@@ -24,11 +24,11 @@ MODE = 'payment'
 def item_detail(request, item_id):
     template = 'item_detail.html'
     item = get_object_or_404(Item, id=item_id)
-    host = request.get_full_path()
+    host = request.build_absolute_uri('/')
+    print(host)
     context = {
         'item': item,
-        'public_key': STRIPE_PUBLIC_KEY,
-        'host': host
+        'public_key': STRIPE_PUBLIC_KEY
     }
     return render(request, template, context)
 
