@@ -57,6 +57,11 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
+          sudo docker-compose stop
+          sudo docker-compose rm web
+          sudo docker image rm stripe_pay_web
+          sudo docker image prune
+          sudo docker pull abeloborodova/stripe_pay
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -67,9 +72,5 @@ jobs:
           echo DB_HOST=${{ secrets.STRIPE_SECRET_KEY }} >> .env
           echo DB_PORT=${{ secrets.STRIPE_PUBLIC_KEY }} >> .env
           echo DB_PORT=${{ secrets.HOST }} >> .env
-          sudo docker-compose stop
-          sudo docker-compose rm web
-          sudo docker image rm stripe_pay_web
-          sudo docker image prune
           sudo docker-compose up -d 
 
