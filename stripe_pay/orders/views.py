@@ -2,13 +2,12 @@ import os
 
 import stripe
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from dotenv import load_dotenv
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
-from stripe_pay.settings import BASE_DIR
 
 from .models import Item
 from .serializers import StripeSessionIdSerializer
@@ -17,6 +16,9 @@ load_dotenv()
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY', default='default')
 PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', default='default')
+CURRENCY = 'rub'
+QUANTITY = 1
+MODE = 'payment'
 
 
 def item_detail(request, item_id):
@@ -32,20 +34,21 @@ def item_detail(request, item_id):
 @api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
+    host = request.get_host()
     session = stripe.checkout.Session.create(
         line_items=[{
             'price_data': {
-                'currency': 'rub',
+                'currency': CURRENCY,
                 'product_data': {
                     'name': item.name,
                 },
                 'unit_amount': item.price,
             },
-            'quantity': 1,
+            'quantity': QUANTITY,
         }],
-        mode='payment',
-        success_url='http://127.0.0.1/success',
-        cancel_url='http://127.0.0.1/cancel',
+        mode=MODE,
+        success_url='http://' + host + reverse('orders:success'),
+        cancel_url='http://' + host + reverse('orders:cancel'),
     )
     data = {
         'id': session.id
