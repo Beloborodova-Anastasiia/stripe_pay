@@ -1,5 +1,5 @@
 import os
-import socket
+# import socket
 
 import stripe
 from django.shortcuts import get_object_or_404, render
