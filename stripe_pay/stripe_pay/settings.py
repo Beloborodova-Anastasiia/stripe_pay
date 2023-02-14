@@ -17,13 +17,11 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # SECRET_KEY = os.getenv('DJANGO_KEY', default='default')
 SECRET_KEY = 'rb__28vup%7or5pk&k57i7zvv_5-^wj5)v@#7qpq$7*6y2kzwq'
 
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1']
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['84.201.133.140', '127.0.0.1', 'localhost']
 
 
 # Application definition
