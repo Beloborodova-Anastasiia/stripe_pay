@@ -24,8 +24,6 @@ MODE = 'payment'
 def item_detail(request, item_id):
     template = 'item_detail.html'
     item = get_object_or_404(Item, id=item_id)
-    host = request.build_absolute_uri('/')
-    print(host)
     context = {
         'item': item,
         'public_key': STRIPE_PUBLIC_KEY
@@ -36,8 +34,8 @@ def item_detail(request, item_id):
 @api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-    host = request.get_full_path()
-    
+    host = request.build_absolute_uri('/')
+
     session = stripe.checkout.Session.create(
         line_items=[{
             'price_data': {
@@ -52,8 +50,8 @@ def create_checkout_session(request, item_id):
         mode=MODE,
     #     success_url='http://' + host + reverse('orders:success'),
     #     cancel_url='http://' + host + reverse('orders:cancel'),
-        success_url='http://http://84.201.133.140/success',
-        cancel_url='http://http://84.201.133.140/cancel',
+        success_url=host + 'success',
+        cancel_url=host + 'cancel',
     )
     data = {
         'id': session.id
