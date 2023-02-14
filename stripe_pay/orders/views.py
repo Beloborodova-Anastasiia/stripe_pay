@@ -19,6 +19,7 @@ STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', default='default')
 CURRENCY = 'rub'
 QUANTITY = 1
 MODE = 'payment'
+HOST = os.getenv('HOST', default='default')
 
 
 def item_detail(request, item_id):
@@ -34,7 +35,6 @@ def item_detail(request, item_id):
 @api_view(['GET',])
 def create_checkout_session(request, item_id):
     item = get_object_or_404(Item, id=item_id)
-    host = request.build_absolute_uri('/')
 
     session = stripe.checkout.Session.create(
         line_items=[{
@@ -48,11 +48,10 @@ def create_checkout_session(request, item_id):
             'quantity': QUANTITY,
         }],
         mode=MODE,
-    #     success_url='http://' + host + reverse('orders:success'),
-    #     cancel_url='http://' + host + reverse('orders:cancel'),
-        success_url=host + 'success',
-        cancel_url=host + 'cancel',
+        success_url='http://' + HOST + reverse('orders:success'),
+        cancel_url='http://' + HOST + reverse('orders:cancel'),
     )
+
     data = {
         'id': session.id
     }
