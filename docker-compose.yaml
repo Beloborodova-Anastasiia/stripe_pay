@@ -9,7 +9,7 @@ services:
       - ./.env
 
   web:
-    build: .
+    image: abeloborodova/stripe_pay:latest
     restart: always
     volumes:
       - static_value:/app/static/
