@@ -79,6 +79,12 @@ username = admin
 password = 123
 ```
 
+Items list (Список всех товаров):
+```
+http://127.0.0.1/ - local
+http://84.201.133.140/ - on server
+```
+
 Templates of items (Страницы товаров):
 ```
 http://127.0.0.1/item/{id} - local
