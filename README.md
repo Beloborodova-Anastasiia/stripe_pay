@@ -1,20 +1,19 @@
 # stripe_pay
 
-![Workflow status](https://github.com/Beloborodova-Anastasiia/stripe_pay/actions/workflows/foodgram_workflow.yml/badge.svg
-)
-### Server data (Данные сервера)
-```
-[Link to the project on the server](http://84.201.133.140/) (Ссылка на проект, запущенный на сервере)
-```
+![Workflow status](https://github.com/Beloborodova-Anastasiia/stripe_pay/actions/workflows/stripe_pay_workflow.yml/badge.svg)
+
+### Server data 
+[Link to the project on the server](http://84.201.133.140/) 
 
 
-### Description (Описание)
+### Description
 
-Test task for Rishat (Тестовое задание для ООО Ришат)
+Test task for Rishat
 
-Project for implemention connection to the Stripe payment system. The server creates payment forms for products by contacting Stripe (Проект реализации обращения к платежной системе Stripe. Сервевер создает платежные формы для товаров, обращаясь к Stripe)
+The project goal is to integrate a simple Django project with the Stripe payment provider. The server creates payment forms for products by contacting Stripe.
+The project is packaged in a docker container and launched on the Yandex Cloud server.
 
-### Technologies (Технологии)
+### Technologies
  
 Python 3.8
 
@@ -25,9 +24,9 @@ Django REST framework 3.12.4
 Docker 20.10.17
 
 
-### Local project run (Запуск проекта локально):
+### Local project run
 
-Clone a repository and navigate to it on the command line (Клонировать репозиторий в командной строке):
+Clone a repository and navigate to it on the command line:
 
 ```
 git clone git@github.com:Beloborodova-Anastasiia/stripe_pay.git
@@ -37,7 +36,7 @@ git clone git@github.com:Beloborodova-Anastasiia/stripe_pay.git
 cd stripe_pay
 ```
 
-Create env-file with environment variables by template (Создать env-файл с переменными окружения по образцу):
+Create env-file with environment variables by template in the root of project (there is env_example in the root):
 
 ```
 STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
@@ -48,11 +47,11 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=PASSWORD
 DB_HOST=db
 DB_PORT=5432
-HOST=127.0.0.1:8000
+HOST=127.0.0.1
 
 ```
 
-Run build docker-container (Запустить сборку докер-контейнера):
+Build docker-container:
 
 ```
 for Windows and Mac:
@@ -64,28 +63,15 @@ sudo docker-compose up -d --build
 ```
 
 
-### Available resources (Доступные ресурсы)
+### Available resources
 
-The project administrator's website is available at (Панель администратора Django доступна по адресу):
-
-```
-http://127.0.0.1/admin - local
-http://84.201.133.140/admin - on server
-```
-
-Administrator's data (Данные администратора):
-```
-username = admin
-password = 123
-```
-
-Items list (Список всех товаров):
+Items list:
 ```
 http://127.0.0.1/ - local
 http://84.201.133.140/ - on server
 ```
 
-Templates of items (Страницы товаров):
+Templates of items:
 ```
 http://127.0.0.1/item/{id} - local
 http://84.201.133.140/item/{id} - on server
@@ -93,8 +79,20 @@ http://84.201.133.140/item/{id} - on server
 id = [1, 2, 3]
 ```
 
+The project administrator's website is available at:
 
-### Author (Автор)
+```
+http://127.0.0.1/admin - local
+http://84.201.133.140/admin - on server
+```
+
+Administrator's data:
+```
+username = admin
+password = 123
+```
+
+### Author
 
 Anastasiia Beloborodova 
 
