@@ -95,5 +95,3 @@ password = 123
 ### Author
 
 Anastasiia Beloborodova 
-
-anastasiia.beloborodova@gmail.com
